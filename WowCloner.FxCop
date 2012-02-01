@@ -21,7 +21,7 @@
   <IgnoreGeneratedCode>False</IgnoreGeneratedCode>
  </ProjectOptions>
  <Targets>
-  <Target Name="$(ProjectDir)/bin/Debug/WowCloner.exe" Analyze="True" AnalyzeAllChildren="True" />
+  <Target Name="$(ProjectDir)/WowCloner/bin/Debug/WowCloner.exe" Analyze="True" AnalyzeAllChildren="True" />
  </Targets>
  <Rules>
   <RuleFiles>
@@ -41,7 +41,7 @@
  </Rules>
  <FxCopReport Version="10.0">
   <Targets>
-   <Target Name="$(ProjectDir)/bin/Debug/WowCloner.exe">
+   <Target Name="$(ProjectDir)/WowCloner/bin/Debug/WowCloner.exe">
     <Modules>
      <Module Name="wowcloner.exe">
       <Namespaces>
