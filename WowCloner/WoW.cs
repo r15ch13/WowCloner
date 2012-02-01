@@ -39,12 +39,12 @@ namespace Wowcloner
         // WoW-Ordner Prefix
         private string prefix = "WoW_";
 
-        internal static class UnsafeNativeMethods
+        internal static class NativeMethods
         {
             // Funktion aus der Windows API um symbolische Links zu erstellen
             [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
             [return: MarshalAs(UnmanagedType.I1)]
-            public static extern bool CreateSymbolicLink(string symlink, string source, UInt32 Flags);
+            internal static extern bool CreateSymbolicLink(string symlink, string source, UInt32 Flags);
         }
 
         public Wow(string source)
@@ -86,7 +86,7 @@ namespace Wowcloner
                 throw;
             }
 
-            bool success = Wow.UnsafeNativeMethods.CreateSymbolicLink(symlink, sourcefile, 0x0);
+            bool success = Wow.NativeMethods.CreateSymbolicLink(symlink, sourcefile, 0x0);
             if (success == false)
             {
                 this.errors.Add(new Win32Exception(Marshal.GetLastWin32Error()));
@@ -117,7 +117,7 @@ namespace Wowcloner
                 throw;
             }
 
-            bool success = Wow.UnsafeNativeMethods.CreateSymbolicLink(symlink, sourcedir, 0x1);
+            bool success = Wow.NativeMethods.CreateSymbolicLink(symlink, sourcedir, 0x1);
             if (success == false)
             {
                 this.errors.Add(new Win32Exception(Marshal.GetLastWin32Error())); // Fehler sammeln
