@@ -20,10 +20,14 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using System.Security;
+using System.Collections.ObjectModel;
 
-namespace wowcloner
+[assembly: CLSCompliant(true)]
+
+namespace Wowcloner
 {
-    public class WoW
+    public class Wow
     {
 
         // Fehlerliste
@@ -35,33 +39,28 @@ namespace wowcloner
         // WoW-Ordner Prefix
         private string prefix = "WoW_";
 
-        // Funktion aus der Windows API um symbolische Links zu erstellen
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        static extern bool CreateSymbolicLink(string symlink, string source, UInt32 Flags);
-
-
-        public WoW(string source)
+        internal static class UnsafeNativeMethods
         {
-            try
-            {
+            // Funktion aus der Windows API um symbolische Links zu erstellen
+            [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool CreateSymbolicLink(string symlink, string source, UInt32 Flags);
+        }
 
-                if (source.Trim() != "")
-                {
-                    // Bei Sonderzeichen gibt es einen Fehler
-                    this.source = Path.GetFullPath(source);
-                }
-                else
-                {
-                    throw new MyException("Quellpfad darf nicht leer sein!");
-                }
-            }
-            catch (Exception ex)
+        public Wow(string source)
+        {
+            if (!String.IsNullOrEmpty(source.Trim()))
             {
-                this.errors.Add(ex); // Fehler sammeln
+                // Bei Sonderzeichen gibt es einen Fehler
+                this.source = Path.GetFullPath(source);
+            }
+            else
+            {
+                this.errors.Add(new MyException("Quellpfad darf nicht leer sein!"));
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
+
 
         private void CreateFileSymLink(string sourcefile, string symlink)
         {
@@ -69,12 +68,25 @@ namespace wowcloner
             {
                 if (File.Exists(symlink)) File.Delete(symlink);
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 this.errors.Add(ex); // Fehler sammeln
             }
+            catch (SecurityException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (Exception ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+                throw;
+            }
 
-            bool success = WoW.CreateSymbolicLink(symlink, sourcefile, 0x0);
+            bool success = Wow.UnsafeNativeMethods.CreateSymbolicLink(symlink, sourcefile, 0x0);
             if (success == false)
             {
                 this.errors.Add(new Win32Exception(Marshal.GetLastWin32Error()));
@@ -87,12 +99,25 @@ namespace wowcloner
             {
                 if (Directory.Exists(symlink)) Directory.Delete(symlink);
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 this.errors.Add(ex); // Fehler sammeln
             }
+            catch (SecurityException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (Exception ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+                throw;
+            }
 
-            bool success = WoW.CreateSymbolicLink(symlink, sourcedir, 0x1);
+            bool success = Wow.UnsafeNativeMethods.CreateSymbolicLink(symlink, sourcedir, 0x1);
             if (success == false)
             {
                 this.errors.Add(new Win32Exception(Marshal.GetLastWin32Error())); // Fehler sammeln
@@ -109,13 +134,26 @@ namespace wowcloner
                     File.Copy(sourcefile, Path.Combine(targetfolder, filename), true);
                 }
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 this.errors.Add(ex); // Fehler sammeln
             }
+            catch (SecurityException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (Exception ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+                throw;
+            }
         }
 
-        private void CopyMultibleFiles(string soruce, string wildcard, string target)
+        private void CopyMultibleFiles(string source, string wildcard, string target)
         {
             foreach (string file in Directory.GetFiles(source, wildcard, SearchOption.TopDirectoryOnly))
             {
@@ -151,7 +189,7 @@ namespace wowcloner
             try
             {
 
-                if (name.Trim() != "")
+                if (!String.IsNullOrEmpty(name.Trim()))
                 {
                     // Pfad des Zielordners erstellen
                     this.target = Path.Combine(this.source, this.prefix + name);
@@ -165,59 +203,87 @@ namespace wowcloner
                     }
                     else
                     {
-                        throw new MyException("Es existiert bereits eine WoW-Kopie mit diesem Namen!");
+                        this.errors.Add(new MyException("Es existiert bereits eine WoW-Kopie mit diesem Namen!"));
                     }
                 }
                 else
                 {
-                    throw new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!");
+                    this.errors.Add(new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!"));
                 }
+            }
+            catch (IOException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (SecurityException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
             }
             catch (Exception ex)
             {
                 this.errors.Add(ex); // Fehler sammeln
+                throw;
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
 
         public void Delete(string name)
         {
-            try
+            if (!String.IsNullOrEmpty(name.Trim()))
             {
-                if (name.Trim() != "")
+                bool hasSubDirs = false;
+                try
                 {
-                    bool hasSubDirs = false;
-                    try
-                    {
-                        Directory.Delete(Path.Combine(this.source, this.prefix + name), true);
-                    }
-                    catch (Exception ex)
-                    {
-                        hasSubDirs = true;
-                    }
+                    Directory.Delete(Path.Combine(this.source, this.prefix + name), true);
+                }
+                catch (IOException)
+                {
+                    hasSubDirs = true;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    hasSubDirs = true;
+                }
+                catch (Exception)
+                {
+                    hasSubDirs = true;
+                    throw;
+                }
 
-                    try
+                try
+                {
+                    if (hasSubDirs)
                     {
-                        if (hasSubDirs)
-                        {
-                            DirectoryInfo dir = new DirectoryInfo(Path.Combine(this.source, this.prefix + name));
-                            DeleteRecursive(dir);
-                            Delete(name);
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        this.errors.Add(ex); // Fehler sammeln
+                        DirectoryInfo dir = new DirectoryInfo(Path.Combine(this.source, this.prefix + name));
+                        DeleteRecursive(dir);
+                        Delete(name);
                     }
                 }
-                else
+                catch (IOException ex)
                 {
-                    throw new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!");
+                    this.errors.Add(ex); // Fehler sammeln
+                }
+                catch (SecurityException ex)
+                {
+                    this.errors.Add(ex); // Fehler sammeln
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    this.errors.Add(ex); // Fehler sammeln
+                }
+                catch (Exception ex)
+                {
+                    this.errors.Add(ex); // Fehler sammeln
+                    throw;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                this.errors.Add(ex); // Fehler sammeln
+                this.errors.Add(new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!"));
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
@@ -239,17 +305,29 @@ namespace wowcloner
                     DeleteRecursive(di);
                 }
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 this.errors.Add(ex); // Fehler sammeln
             }
-            
+            catch (SecurityException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (Exception ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+                throw;
+            }
         }
 
 
         public void UpdateAll()
         {
-            foreach (string folder in this.GetFolders())
+            foreach (string folder in this.Folders)
             {
                 this.Update(folder);
             }
@@ -260,7 +338,7 @@ namespace wowcloner
             try
             {
 
-                if (name.Trim() != "")
+                if (!String.IsNullOrEmpty(name.Trim()))
                 {
                     // Pfad des Zielordners erstellen
                     this.target = Path.Combine(this.source, this.prefix + name);
@@ -271,31 +349,50 @@ namespace wowcloner
                 }
                 else
                 {
-                    throw new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!");
+                    this.errors.Add(new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!"));
                 }
+            }
+            catch (IOException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (SecurityException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.errors.Add(ex); // Fehler sammeln
             }
             catch (Exception ex)
             {
                 this.errors.Add(ex); // Fehler sammeln
+                throw;
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
 
-        public List<string> GetFolders()
+        public ReadOnlyCollection<string> Folders
         {
-            List<string> folders = new List<string>();
-            try
+            get
             {
-                foreach (string folder in Directory.GetDirectories(this.source, this.prefix + "*"))
+                ReadOnlyCollection<string> folders = null;
+                try
                 {
-                    folders.Add(Path.GetFileName(folder.Replace(this.prefix, "")));
+                    List<string> tmp = new List<string>();
+                    foreach (string folder in Directory.GetDirectories(this.source, this.prefix + "*"))
+                    {
+                        tmp.Add(Path.GetFileName(folder.Replace(this.prefix, "")));
+                    }
+                    folders = new ReadOnlyCollection<string>(tmp);
                 }
+                catch (Exception ex)
+                {
+                    this.errors.Add(ex); // Fehler sammeln
+                    throw;
+                }
+                return folders;
             }
-            catch (Exception ex)
-            {
-                this.errors.Add(ex); // Fehler sammeln
-            }
-            return folders;
         }
     }
 }

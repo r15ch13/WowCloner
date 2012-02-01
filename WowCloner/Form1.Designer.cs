@@ -1,4 +1,4 @@
-﻿namespace wowcloner
+﻿namespace Wowcloner
 {
     partial class Form1
     {
@@ -125,14 +125,14 @@
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label4.Image = global::wowcloner.Properties.Resources.titlebg;
+            this.label4.Image = global::Wowcloner.Properties.Resources.titlebg;
             this.label4.Name = "label4";
             this.label4.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label4_MouseDown);
             this.label4.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label4_MouseMove);
             // 
             // buttonClose
             // 
-            this.buttonClose.BackgroundImage = global::wowcloner.Properties.Resources.close1;
+            this.buttonClose.BackgroundImage = global::Wowcloner.Properties.Resources.close1;
             this.buttonClose.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.buttonClose, "buttonClose");
             this.buttonClose.Name = "buttonClose";
@@ -143,7 +143,7 @@
             // 
             // buttonMinimize
             // 
-            this.buttonMinimize.BackgroundImage = global::wowcloner.Properties.Resources.mini1;
+            this.buttonMinimize.BackgroundImage = global::Wowcloner.Properties.Resources.mini1;
             this.buttonMinimize.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.buttonMinimize, "buttonMinimize");
             this.buttonMinimize.Name = "buttonMinimize";
@@ -155,7 +155,7 @@
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.BackgroundImage = global::wowcloner.Properties.Resources.button1_130x38;
+            this.buttonUpdate.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
             this.buttonUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonUpdate.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.buttonUpdate, "buttonUpdate");
@@ -168,7 +168,7 @@
             // 
             // buttonSearch
             // 
-            this.buttonSearch.BackgroundImage = global::wowcloner.Properties.Resources.button1_50x38;
+            this.buttonSearch.BackgroundImage = global::Wowcloner.Properties.Resources.button1_50x38;
             this.buttonSearch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSearch.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.buttonSearch, "buttonSearch");
@@ -205,7 +205,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.BackgroundImage = global::wowcloner.Properties.Resources.button1_130x38;
+            this.buttonCreate.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
             this.buttonCreate.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.buttonCreate, "buttonCreate");
             this.buttonCreate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(174)))), ((int)(((byte)(0)))));
@@ -218,7 +218,7 @@
             // pictureBox1
             // 
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
-            this.pictureBox1.Image = global::wowcloner.Properties.Resources.window;
+            this.pictureBox1.Image = global::Wowcloner.Properties.Resources.window;
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
