@@ -159,7 +159,7 @@ namespace Wowcloner
             {
                 if (!Path.GetFileName(file).Contains("tools-patch") &&
                     !Path.GetFileName(file).Contains("tools-downloader") &&
-                    Path.GetFileName(file) != Path.GetFileName(Application.ExecutablePath))
+                    Path.GetFileName(file).ToLower() != Path.GetFileName(Application.ExecutablePath).ToLower())
                 {
                     this.CopyFile(file, target);
                 }
@@ -176,12 +176,7 @@ namespace Wowcloner
 
             this.CopyFile(Path.Combine(this.source, "WTF", "config.wtf"), Path.Combine(this.target, "WTF"));
             this.CopyFile(Path.Combine(this.source, "realmlist.wtf"), this.target);
-            this.CopyMultibleFiles(this.source, "*.exe", this.target);
-            this.CopyMultibleFiles(this.source, "*.mfil", this.target);
-            this.CopyMultibleFiles(this.source, "*.tfil", this.target);
-            this.CopyMultibleFiles(this.source, "*.dll", this.target);
-            this.CopyMultibleFiles(this.source, "*.manifest", this.target);
-            this.CopyMultibleFiles(this.source, "*.wtf", this.target);
+            this.CopyMultibleFiles(this.source, "*.*", this.target);
         }
 
         public void Create(string name)
