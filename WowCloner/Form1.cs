@@ -272,9 +272,9 @@ namespace Wowcloner
             {
                 try
                 {
-                    Properties.Settings.Default.wowsource = Path.GetFullPath(this.textBoxSource.Text);
-                    if (isWoWDir(folderBrowserDialog1.SelectedPath))
+                    if (this.isWoWDir(this.textBoxSource.Text))
                     {
+                        Properties.Settings.Default.wowsource = Path.GetFullPath(this.textBoxSource.Text);
                         Properties.Settings.Default.Save();
                         this.loadWoWFolders();
                     }
@@ -292,7 +292,6 @@ namespace Wowcloner
                     Properties.Settings.Default.Save();
                     this.textBoxSource.Text = "";
                     AggregateHandler(new AggregateException(ex));
-                    throw;
                 }
 
             }
@@ -313,7 +312,7 @@ namespace Wowcloner
             this.logBindingSource.Clear();
             if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (isWoWDir(folderBrowserDialog1.SelectedPath))
+                if (this.isWoWDir(folderBrowserDialog1.SelectedPath))
                 {
                     this.textBoxSource.Text = folderBrowserDialog1.SelectedPath;
                     Properties.Settings.Default.wowsource = folderBrowserDialog1.SelectedPath;
@@ -330,11 +329,15 @@ namespace Wowcloner
             }
         }
 
-        private static bool isWoWDir(string path)
+        private bool isWoWDir(string path)
         {
             try
             {
                 if (Directory.GetFiles(path, "Wow.exe", SearchOption.TopDirectoryOnly).Length > 0)
+                {
+                    return true;
+                }
+                if (Directory.GetFiles(path, "Wow-64.exe", SearchOption.TopDirectoryOnly).Length > 0)
                 {
                     return true;
                 }
@@ -413,7 +416,7 @@ namespace Wowcloner
         private int mouse_y = 0;
         private bool move = false;
 
-        private void label4_MouseMove(object sender, MouseEventArgs e)
+        private void labelTitle_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left && sender.GetType() == typeof(Label) && move == true)
             {
@@ -426,7 +429,7 @@ namespace Wowcloner
             }
         }
 
-        private void label4_MouseDown(object sender, MouseEventArgs e)
+        private void labelTitle_MouseDown(object sender, MouseEventArgs e)
         {
             if (sender.GetType() == typeof(Label))
             {
