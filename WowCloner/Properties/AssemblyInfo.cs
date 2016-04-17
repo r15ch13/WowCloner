@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("r15ch13.de")]
 [assembly: AssemblyProduct("World of Warcraft Cloner")]
-[assembly: AssemblyCopyright("Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0")]
+[assembly: AssemblyCopyright("Licensed under the MIT License (http://r15ch13.mit-license.org/)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
