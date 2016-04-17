@@ -31,6 +31,7 @@ namespace Wowcloner
 
         public Form1()
         {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.InstalledUICulture.TwoLetterISOLanguageName);
             InitializeComponent();
 
             this.logBindingSource.DataSource = this.log;
@@ -40,7 +41,7 @@ namespace Wowcloner
             this.loadWoWFolders();
             try
             {
-                this.label4.Text = "World of Warcraft Cloner - " + FileVersionInfo.GetVersionInfo(Application.ExecutablePath).ProductVersion.ToString();
+                this.labelTitle.Text = String.Format("World of Warcraft Cloner - {0}", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).ProductVersion);
             }
             catch (FileNotFoundException) { }
             catch (NullReferenceException) { }
@@ -54,15 +55,15 @@ namespace Wowcloner
 
         private void loadWoWFolders()
         {
-            this.listView1.Items.Clear();
+            this.listViewWowCopies.Items.Clear();
             try
             {
                 Wow wow = new Wow(Properties.Settings.Default.wowsource);
                 ReadOnlyCollection<string> folders = wow.Folders;
-                if (folders.Count == 0) writeLog("Keine WoW-Kopien gefunden.");
+                if (folders.Count == 0) writeLog(Wowcloner.Properties.Resources.No_WoW_Copies_found);
                 foreach (string folder in folders)
                 {
-                    this.listView1.Items.Add(folder);
+                    this.listViewWowCopies.Items.Add(folder);
                 }
             }
             catch (AggregateException ex)
@@ -119,10 +120,10 @@ namespace Wowcloner
             this.disableButtons();
             try
             {
-                this.writeLog("Bitte warten ...");
+                this.writeLog(Wowcloner.Properties.Resources.Please_wait);
                 Wow wow = new Wow(Properties.Settings.Default.wowsource);
                 wow.Create(this.textBoxName.Text);
-                this.writeLog(this.textBoxName.Text + " wurde erstellt.");
+                this.writeLog(String.Format(Wowcloner.Properties.Resources._0_created, this.textBoxName.Text));
             }
             catch (AggregateException ex)
             {
@@ -137,18 +138,18 @@ namespace Wowcloner
         {
             this.logBindingSource.Clear();
             this.disableButtons();
-            if (this.listView1.CheckedItems.Count > 0)
+            if (this.listViewWowCopies.CheckedItems.Count > 0)
             {
                 try
                 {
-                    this.writeLog("Bitte warten ...");
+                    this.writeLog(Wowcloner.Properties.Resources.Please_wait);
                     Wow wow = new Wow(Properties.Settings.Default.wowsource);
-                    foreach (ListViewItem item in this.listView1.CheckedItems)
+                    foreach (ListViewItem item in this.listViewWowCopies.CheckedItems)
                     {
                         wow.Update(item.Text);
-                        this.writeLog(item.Text + " wurde aktualisiert.");
+                        this.writeLog(String.Format(Wowcloner.Properties.Resources._0_updated, item.Text));
                     }
-                    this.writeLog("Fertig!");
+                    this.writeLog(Wowcloner.Properties.Resources.Done);
                 }
                 catch (AggregateException ex)
                 {
@@ -157,7 +158,7 @@ namespace Wowcloner
             }
             else
             {
-                this.writeLog("Nichts ausgewählt!");
+                this.writeLog(Wowcloner.Properties.Resources.Nothing_selected);
             }
             this.loadWoWFolders();
         }
@@ -168,16 +169,16 @@ namespace Wowcloner
             this.disableButtons();
             try
             {
-                if (this.listView1.Items.Count > 0)
+                if (this.listViewWowCopies.Items.Count > 0)
                 {
-                    this.writeLog("Bitte warten ...");
+                    this.writeLog(Wowcloner.Properties.Resources.Please_wait);
                     Wow wow = new Wow(Properties.Settings.Default.wowsource);
-                    foreach (ListViewItem item in this.listView1.Items)
+                    foreach (ListViewItem item in this.listViewWowCopies.Items)
                     {
                         wow.Update(item.Text);
-                        this.writeLog(item.Text + " wurde aktualisiert.");
+                        this.writeLog(String.Format(Wowcloner.Properties.Resources._0_updated, item.Text));
                     }
-                    this.writeLog("Fertig!");
+                    this.writeLog(Wowcloner.Properties.Resources.Done);
                 }
             }
             catch (AggregateException ex)
@@ -191,25 +192,25 @@ namespace Wowcloner
         {
             this.logBindingSource.Clear();
             this.disableButtons();
-            if (this.listView1.CheckedItems.Count > 0)
+            if (this.listViewWowCopies.CheckedItems.Count > 0)
             {
                 if (MessageBox.Show(null,
-                                    String.Format(CultureInfo.CurrentCulture, "Sollen die ausgewählten WoW-Kopien wirklich gelöscht werden?{0}Alle AddOns, Einstellungen und Profile werden ebenfalls gelöscht!", Environment.NewLine),
-                                    "Löschen?",
+                                    Wowcloner.Properties.Resources.Should_the_selected_WoW_Copies,
+                                    Wowcloner.Properties.Resources.Delete,
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Warning,
                                     MessageBoxDefaultButton.Button2, (MessageBoxOptions)0) == System.Windows.Forms.DialogResult.Yes)
                 {
                     try
                     {
-                        this.writeLog("Bitte warten ...");
+                        this.writeLog(Wowcloner.Properties.Resources.Please_wait);
                         Wow wow = new Wow(Properties.Settings.Default.wowsource);
-                        foreach (ListViewItem item in this.listView1.CheckedItems)
+                        foreach (ListViewItem item in this.listViewWowCopies.CheckedItems)
                         {
                             wow.Delete(item.Text);
-                            this.writeLog(item.Text + " wurde gelöscht.");
+                            this.writeLog(String.Format(Wowcloner.Properties.Resources._0_deleted, item.Text));
                         }
-                        this.writeLog("Fertig!");
+                        this.writeLog(Wowcloner.Properties.Resources.Done);
                     }
                     catch (AggregateException ex)
                     {
@@ -219,7 +220,7 @@ namespace Wowcloner
             }
             else
             {
-                this.writeLog("Nichts ausgewählt!");
+                this.writeLog(Wowcloner.Properties.Resources.Nothing_selected);
             }
             this.loadWoWFolders();
         }
@@ -249,16 +250,16 @@ namespace Wowcloner
                 switch (ex.GetType().Name)
                 {
                     case "Win32Exception":
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, "SymLink Fehler ({0}): {1}", ((Win32Exception)ex).NativeErrorCode, ex.Message));
+                        this.writeLog(String.Format(CultureInfo.CurrentCulture, Wowcloner.Properties.Resources.SymLink_Error_0_1, ((Win32Exception)ex).NativeErrorCode, ex.Message));
                         break;
                     case "MyException":
                         this.writeLog(String.Format(CultureInfo.CurrentCulture, "{0}", ex.Message));
                         break;
                     case "Exception":
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, "Unbekannter Fehler: {0}", ex.Message));
+                        this.writeLog(String.Format(CultureInfo.CurrentCulture, Wowcloner.Properties.Resources.Unknown_Error_0, ex.Message));
                         break;
                     default:
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, "Unbekannter Fehler: {0}", ex.Message));
+                        this.writeLog(String.Format(CultureInfo.CurrentCulture, Wowcloner.Properties.Resources.Unknown_Error_0, ex.Message));
                         break;
                 }
 
@@ -282,7 +283,7 @@ namespace Wowcloner
                         Properties.Settings.Default.wowsource = "";
                         Properties.Settings.Default.Save();
                         this.textBoxSource.Text = "";
-                        this.writeLog("Wow.exe nicht gefunden! Bitte richtiges Installationsverzeichnis wählen.");
+                        this.writeLog(Wowcloner.Properties.Resources.Wow_exe_not_found_Please_selec);
                     }
                 }
                 catch (Exception ex)
@@ -302,7 +303,7 @@ namespace Wowcloner
             this.logBindingSource.Clear();
 
             // Workaround to avoid ArgumentException when disposing
-            this.listBox1.SelectionMode = SelectionMode.One;
+            this.listBoxLog.SelectionMode = SelectionMode.One;
 
             Properties.Settings.Default.Save();
         }
@@ -324,7 +325,7 @@ namespace Wowcloner
                     Properties.Settings.Default.wowsource = "";
                     Properties.Settings.Default.Save();
                     this.textBoxSource.Text = "";
-                    this.writeLog("Wow.exe nicht gefunden! Bitte richtiges Installationsverzeichnis wählen.");
+                    this.writeLog(Wowcloner.Properties.Resources.Wow_exe_not_found_Please_selec);
                 }
             }
         }

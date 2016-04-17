@@ -56,7 +56,7 @@ namespace Wowcloner
             }
             else
             {
-                this.errors.Add(new MyException("Quellpfad darf nicht leer sein!"));
+                this.errors.Add(new MyException(Wowcloner.Properties.Resources.Sourcepath_should_not_be_empty));
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
@@ -198,12 +198,12 @@ namespace Wowcloner
                     }
                     else
                     {
-                        this.errors.Add(new MyException("Es existiert bereits eine WoW-Kopie mit diesem Namen!"));
+                        this.errors.Add(new MyException(Wowcloner.Properties.Resources.A_WoW_Copy_with_this_name_alre));
                     }
                 }
                 else
                 {
-                    this.errors.Add(new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!"));
+                    this.errors.Add(new MyException(Wowcloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
                 }
             }
             catch (IOException ex)
@@ -278,7 +278,7 @@ namespace Wowcloner
             }
             else
             {
-                this.errors.Add(new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!"));
+                this.errors.Add(new MyException(Wowcloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
@@ -344,7 +344,7 @@ namespace Wowcloner
                 }
                 else
                 {
-                    this.errors.Add(new MyException("Der Name der neuen WoW-Kopie darf nicht leer sein!"));
+                    this.errors.Add(new MyException(Wowcloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
                 }
             }
             catch (IOException ex)

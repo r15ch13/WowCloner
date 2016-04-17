@@ -118,92 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="_0_created" xml:space="preserve">
-    <value>{0} created.</value>
+    <value>{0} erstellt.</value>
   </data>
   <data name="_0_deleted" xml:space="preserve">
-    <value>{0} deleted.</value>
+    <value>{0} gelöscht.</value>
   </data>
   <data name="_0_updated" xml:space="preserve">
-    <value>{0} updated.</value>
+    <value>{0} aktualisiert.</value>
   </data>
   <data name="A_WoW_Copy_with_this_name_alre" xml:space="preserve">
-    <value>A WoW-Copy with this name already exists!</value>
+    <value>Es existiert bereits eine WoW-Kopie mit diesem Namen!</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete?</value>
+    <value>Löschen?</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done!</value>
+    <value>Fertig!</value>
   </data>
   <data name="No_WoW_Copies_found" xml:space="preserve">
-    <value>No WoW-Copies found.</value>
+    <value>Keine WoW-Kopien gefunden.</value>
   </data>
   <data name="Nothing_selected" xml:space="preserve">
-    <value>Nothing selected!</value>
+    <value>Nichts ausgewählt!</value>
   </data>
   <data name="Please_enter_a_name_for_the_Wo" xml:space="preserve">
-    <value>Please enter a name for the WoW-Copy!</value>
+    <value>Bitten einen Namen für die WoW-Kopie angeben!</value>
   </data>
   <data name="Please_wait" xml:space="preserve">
-    <value>Please wait...</value>
+    <value>Bitte warten ...</value>
   </data>
   <data name="Should_the_selected_WoW_Copies" xml:space="preserve">
-    <value>Should the selected WoW-Copies realy be deleted?
-All AddOns, Settings and Profiles will be deleted too!</value>
+    <value>Sollen die ausgewählten WoW-Kopien wirklich gelöscht werden?\nAlle AddOns, Einstellungen und Profile werden ebenfalls gelöscht!</value>
   </data>
   <data name="Sourcepath_should_not_be_empty" xml:space="preserve">
-    <value>Sourcepath should not be empty!</value>
+    <value>Quellpfad darf nicht leer sein!</value>
   </data>
   <data name="SymLink_Error_0_1" xml:space="preserve">
-    <value>SymLink Error ({0}): {1}</value>
+    <value>SymLink Fehler ({0}): {1}</value>
   </data>
   <data name="Unknown_Error_0" xml:space="preserve">
-    <value>Unknown Error: {0}</value>
+    <value>Unbekannter Fehler: {0}</value>
   </data>
   <data name="Wow_exe_not_found_Please_selec" xml:space="preserve">
-    <value>Wow.exe not found! Please select correct installpath.</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="button3_50x38" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button3_50x38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="close2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="close1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button1_130x38" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button1_130x38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button3_130x38" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button3_130x38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mini1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mini1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mini2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mini2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button1_50x38" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button1_50x38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="window" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\window.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button2_130x38" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button2_130x38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="button2_50x38" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\button2_50x38.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="icon32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icon32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="titlebg" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\titlebg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>Wow.exe nicht gefunden! Bitte richtiges Installationsverzeichnis wählen.</value>
   </data>
 </root>

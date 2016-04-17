@@ -104,6 +104,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.de.resx">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -150,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="downloader.ico" />
+    <Content Include="WowCloner_ml.xml" />
     <None Include="Resources\titlebg.png" />
     <None Include="Resources\window.png" />
     <None Include="Resources\mini2.png" />
