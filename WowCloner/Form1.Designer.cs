@@ -56,24 +56,23 @@
             // 
             // textBoxSource
             // 
-            resources.ApplyResources(this.textBoxSource, "textBoxSource");
             this.textBoxSource.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(21)))), ((int)(((byte)(7)))));
             this.textBoxSource.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.textBoxSource, "textBoxSource");
             this.textBoxSource.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(154)))), ((int)(((byte)(103)))));
             this.textBoxSource.Name = "textBoxSource";
             this.textBoxSource.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSource_KeyDown);
             // 
             // textBoxName
             // 
-            resources.ApplyResources(this.textBoxName, "textBoxName");
             this.textBoxName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(21)))), ((int)(((byte)(7)))));
             this.textBoxName.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.textBoxName, "textBoxName");
             this.textBoxName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(154)))), ((int)(((byte)(103)))));
             this.textBoxName.Name = "textBoxName";
             // 
             // listViewWowCopies
             // 
-            resources.ApplyResources(this.listViewWowCopies, "listViewWowCopies");
             this.listViewWowCopies.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(21)))), ((int)(((byte)(7)))));
             this.listViewWowCopies.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.listViewWowCopies.CheckBoxes = true;
@@ -81,6 +80,7 @@
             this.columnHeader1});
             this.listViewWowCopies.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(154)))), ((int)(((byte)(103)))));
             this.listViewWowCopies.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            resources.ApplyResources(this.listViewWowCopies, "listViewWowCopies");
             this.listViewWowCopies.MultiSelect = false;
             this.listViewWowCopies.Name = "listViewWowCopies";
             this.listViewWowCopies.UseCompatibleStateImageBehavior = false;
@@ -92,11 +92,12 @@
             // 
             // listBoxLog
             // 
-            resources.ApplyResources(this.listBoxLog, "listBoxLog");
             this.listBoxLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(21)))), ((int)(((byte)(7)))));
             this.listBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBoxLog.DataSource = this.logBindingSource;
             this.listBoxLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(154)))), ((int)(((byte)(103)))));
             this.listBoxLog.FormattingEnabled = true;
+            resources.ApplyResources(this.listBoxLog, "listBoxLog");
             this.listBoxLog.Name = "listBoxLog";
             this.listBoxLog.SelectionMode = System.Windows.Forms.SelectionMode.None;
             // 
@@ -126,14 +127,14 @@
             this.labelTitle.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.labelTitle.Image = global::Wowcloner.Properties.Resources.titlebg;
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label4_MouseDown);
-            this.labelTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.label4_MouseMove);
+            this.labelTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.labelTitle_MouseDown);
+            this.labelTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.labelTitle_MouseMove);
             // 
             // buttonClose
             // 
-            resources.ApplyResources(this.buttonClose, "buttonClose");
             this.buttonClose.BackgroundImage = global::Wowcloner.Properties.Resources.close1;
             this.buttonClose.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.buttonClose, "buttonClose");
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
@@ -142,9 +143,9 @@
             // 
             // buttonMinimize
             // 
-            resources.ApplyResources(this.buttonMinimize, "buttonMinimize");
             this.buttonMinimize.BackgroundImage = global::Wowcloner.Properties.Resources.mini1;
             this.buttonMinimize.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.buttonMinimize, "buttonMinimize");
             this.buttonMinimize.Name = "buttonMinimize";
             this.buttonMinimize.TabStop = false;
             this.buttonMinimize.UseVisualStyleBackColor = true;
@@ -154,10 +155,10 @@
             // 
             // buttonUpdate
             // 
-            resources.ApplyResources(this.buttonUpdate, "buttonUpdate");
             this.buttonUpdate.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
             this.buttonUpdate.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonUpdate.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.buttonUpdate, "buttonUpdate");
             this.buttonUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(174)))), ((int)(((byte)(0)))));
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -167,10 +168,10 @@
             // 
             // buttonSearch
             // 
-            resources.ApplyResources(this.buttonSearch, "buttonSearch");
             this.buttonSearch.BackgroundImage = global::Wowcloner.Properties.Resources.button1_50x38;
             this.buttonSearch.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSearch.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.buttonSearch, "buttonSearch");
             this.buttonSearch.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(174)))), ((int)(((byte)(0)))));
             this.buttonSearch.Name = "buttonSearch";
             this.buttonSearch.UseVisualStyleBackColor = true;
@@ -204,9 +205,9 @@
             // 
             // buttonCreate
             // 
-            resources.ApplyResources(this.buttonCreate, "buttonCreate");
             this.buttonCreate.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
             this.buttonCreate.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.buttonCreate, "buttonCreate");
             this.buttonCreate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(174)))), ((int)(((byte)(0)))));
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.UseVisualStyleBackColor = true;
@@ -225,8 +226,8 @@
             // 
             // linkLabel1
             // 
-            resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(174)))), ((int)(((byte)(0)))));
+            resources.ApplyResources(this.linkLabel1, "linkLabel1");
             this.linkLabel1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel1.DisabledLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(154)))), ((int)(((byte)(103)))));
             this.linkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
