@@ -12,11 +12,11 @@ using System.Collections.ObjectModel;
 
 namespace Wowcloner
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private List<string> log = new List<string>();
 
-        public Form1()
+        public MainForm()
         {
             System.Threading.Thread.CurrentThread.CurrentUICulture = new CultureInfo(CultureInfo.InstalledUICulture.TwoLetterISOLanguageName);
             InitializeComponent();
@@ -214,7 +214,7 @@ namespace Wowcloner
 
 
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -284,7 +284,7 @@ namespace Wowcloner
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.logBindingSource.Clear();
 
