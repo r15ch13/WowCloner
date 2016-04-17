@@ -125,20 +125,11 @@
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>250, 17</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>World of Warcraft Installationsverzeichnis:</value>
-  </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 17</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Name der neuen Kopie:</value>
-  </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 17</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>WoW-Kopien:</value>
   </data>
   <data name="folderBrowserDialog1.Description" xml:space="preserve">
     <value>Installationspfad von World of Warcraft angeben.</value>
@@ -206,6 +197,15 @@
   </data>
   <data name="buttonCreate.Text" xml:space="preserve">
     <value>Erstellen</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Name der neuen Kopie:</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>WoW-Kopien:</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>World of Warcraft Installationsverzeichnis:</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

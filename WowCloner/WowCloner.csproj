@@ -55,7 +55,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -67,7 +67,7 @@
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Wowcloner.Program</StartupObject>
+    <StartupObject>WowCloner.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>downloader.ico</ApplicationIcon>

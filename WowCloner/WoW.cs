@@ -9,14 +9,14 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Security;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 [assembly: CLSCompliant(true)]
 
-namespace Wowcloner
+namespace WowCloner
 {
     public class Wow
     {
-
         // Fehlerliste
         List<Exception> errors = new List<Exception>();
         // Quell-WoW-Ordner
@@ -31,7 +31,7 @@ namespace Wowcloner
             // Funktion aus der Windows API um symbolische Links zu erstellen
             [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
             [return: MarshalAs(UnmanagedType.I1)]
-            internal static extern bool CreateSymbolicLink(string symlink, string source, UInt32 Flags);
+            internal static extern bool CreateSymbolicLink(string symLink, string source, uint fileOrDirectory);
         }
 
         public Wow(string source)
@@ -43,17 +43,17 @@ namespace Wowcloner
             }
             else
             {
-                this.errors.Add(new MyException(Wowcloner.Properties.Resources.Sourcepath_should_not_be_empty));
+                this.errors.Add(new MyException(WowCloner.Properties.Resources.Sourcepath_should_not_be_empty));
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
 
-
-        private void CreateFileSymLink(string sourcefile, string symlink)
+        /*
+        private void CreateFileSymLink(string sourceFile, string symLink)
         {
             try
             {
-                if (File.Exists(symlink)) File.Delete(symlink);
+                if (File.Exists(symLink)) File.Delete(symLink);
             }
             catch (IOException ex)
             {
@@ -73,18 +73,19 @@ namespace Wowcloner
                 throw;
             }
 
-            bool success = Wow.NativeMethods.CreateSymbolicLink(symlink, sourcefile, 0x0);
+            bool success = Wow.NativeMethods.CreateSymbolicLink(symLink, sourceFile, 0);
             if (success == false)
             {
                 this.errors.Add(new Win32Exception(Marshal.GetLastWin32Error()));
             }
         }
+        */
 
-        private void CreateDirectorySymLink(string sourcedir, string symlink)
+        private void CreateDirectorySymLink(string sourceDir, string symLink)
         {
             try
             {
-                if (Directory.Exists(symlink)) Directory.Delete(symlink);
+                if (Directory.Exists(symLink)) Directory.Delete(symLink);
             }
             catch (IOException ex)
             {
@@ -104,21 +105,21 @@ namespace Wowcloner
                 throw;
             }
 
-            bool success = Wow.NativeMethods.CreateSymbolicLink(symlink, sourcedir, 0x1);
+            bool success = Wow.NativeMethods.CreateSymbolicLink(symLink, sourceDir, 1);
             if (success == false)
             {
                 this.errors.Add(new Win32Exception(Marshal.GetLastWin32Error())); // Fehler sammeln
             }
         }
 
-        private void CopyFile(string sourcefile, string targetfolder)
+        private void CopyFile(string sourceFile, string targetFolder)
         {
             try
             {
-                if (File.Exists(sourcefile))
+                if (File.Exists(sourceFile))
                 {
-                    string filename = Path.GetFileName(sourcefile);
-                    File.Copy(sourcefile, Path.Combine(targetfolder, filename), true);
+                    string filename = Path.GetFileName(sourceFile);
+                    File.Copy(sourceFile, Path.Combine(targetFolder, filename), true);
                 }
             }
             catch (IOException ex)
@@ -140,20 +141,20 @@ namespace Wowcloner
             }
         }
 
-        private void CopyMultibleFiles(string source, string wildcard, string target)
+        private void CopyMultipleFiles(string source, string wildcard, string target)
         {
             foreach (string file in Directory.GetFiles(source, wildcard, SearchOption.TopDirectoryOnly))
             {
                 if (!Path.GetFileName(file).Contains("tools-patch") &&
                     !Path.GetFileName(file).Contains("tools-downloader") &&
-                    Path.GetFileName(file).ToLower() != Path.GetFileName(Application.ExecutablePath).ToLower())
+                    Path.GetFileName(file).ToLower(CultureInfo.CurrentUICulture) != Path.GetFileName(Application.ExecutablePath).ToLower(CultureInfo.CurrentUICulture))
                 {
                     this.CopyFile(file, target);
                 }
             }
         }
 
-        private void CopyCat()
+        private void Copycat()
         {
             Directory.CreateDirectory(Path.Combine(this.target, "Interface", "AddOns"));
             Directory.CreateDirectory(Path.Combine(this.target, "WTF", "Account"));
@@ -163,7 +164,7 @@ namespace Wowcloner
 
             this.CopyFile(Path.Combine(this.source, "WTF", "config.wtf"), Path.Combine(this.target, "WTF"));
             this.CopyFile(Path.Combine(this.source, "realmlist.wtf"), this.target);
-            this.CopyMultibleFiles(this.source, "*.*", this.target);
+            this.CopyMultipleFiles(this.source, "*.*", this.target);
         }
 
         public void Create(string name)
@@ -181,16 +182,16 @@ namespace Wowcloner
 
                     if (!Directory.Exists(this.target))
                     {
-                        this.CopyCat();
+                        this.Copycat();
                     }
                     else
                     {
-                        this.errors.Add(new MyException(Wowcloner.Properties.Resources.A_WoW_Copy_with_this_name_alre));
+                        this.errors.Add(new MyException(WowCloner.Properties.Resources.A_WoW_Copy_with_this_name_alre));
                     }
                 }
                 else
                 {
-                    this.errors.Add(new MyException(Wowcloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
+                    this.errors.Add(new MyException(WowCloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
                 }
             }
             catch (IOException ex)
@@ -265,7 +266,7 @@ namespace Wowcloner
             }
             else
             {
-                this.errors.Add(new MyException(Wowcloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
+                this.errors.Add(new MyException(WowCloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
             }
             if (errors.Count > 0) throw new AggregateException(this.errors); // Fehlerlist werfen
         }
@@ -306,7 +307,6 @@ namespace Wowcloner
             }
         }
 
-
         public void UpdateAll()
         {
             foreach (string folder in this.Folders)
@@ -327,11 +327,11 @@ namespace Wowcloner
 
                     // Bei Sonderzeichen einen Fehler werfen
                     this.target = Path.GetFullPath(this.target);
-                    this.CopyCat();
+                    this.Copycat();
                 }
                 else
                 {
-                    this.errors.Add(new MyException(Wowcloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
+                    this.errors.Add(new MyException(WowCloner.Properties.Resources.Please_enter_a_name_for_the_Wo));
                 }
             }
             catch (IOException ex)

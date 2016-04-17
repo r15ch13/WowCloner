@@ -4,7 +4,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Wowcloner
+namespace WowCloner
 {
     [Serializable]
     public class MyException : Exception

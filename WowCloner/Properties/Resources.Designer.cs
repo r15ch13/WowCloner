@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wowcloner.Properties {
+namespace WowCloner.Properties {
     using System;
     
     

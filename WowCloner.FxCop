@@ -13,8 +13,8 @@
   <SourceLookup>True</SourceLookup>
   <AnalysisExceptionsThreshold>10</AnalysisExceptionsThreshold>
   <RuleExceptionsThreshold>1</RuleExceptionsThreshold>
-  <Spelling Locale="de-DE" />
-  <OverrideRuleVisibilities>False</OverrideRuleVisibilities>
+  <Spelling Locale="en-US" />
+  <OverrideRuleVisibilities>True</OverrideRuleVisibilities>
   <CustomDictionaries SearchFxCopDir="True" SearchUserProfile="True" SearchProjectDir="True" />
   <SearchGlobalAssemblyCache>False</SearchGlobalAssemblyCache>
   <DeadlockDetectionTimeout>120</DeadlockDetectionTimeout>
@@ -44,32 +44,20 @@
    <Target Name="$(ProjectDir)/WowCloner/bin/Debug/WowCloner.exe">
     <Modules>
      <Module Name="wowcloner.exe">
-      <Namespaces>
-       <Namespace Name="Wowcloner">
-        <Types>
-         <Type Name="Wow">
-          <Members>
-           <Member Name="#CreateFileSymLink(System.String,System.String)">
-            <Messages>
-             <Message TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811" Created="2012-02-01 20:30:06Z">
-              <Issue>
-               <Item>'Wow.CreateFileSymLink(string, string)'</Item>
-              </Issue>
-             </Message>
-            </Messages>
-           </Member>
-          </Members>
-         </Type>
-        </Types>
-       </Namespace>
-      </Namespaces>
+      <Messages>
+       <Message TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210" Created="2016-04-17 15:27:29Z">
+        <Issue Name="NoStrongName">
+         <Item>'WowCloner.exe'</Item>
+        </Issue>
+       </Message>
+      </Messages>
      </Module>
     </Modules>
    </Target>
   </Targets>
   <Rules>
-   <Rule TypeName="AvoidUncalledPrivateCode" Category="Microsoft.Performance" CheckId="CA1811">
-    <Resolution Name="Default">{0} appears to have no upstream public or protected callers.</Resolution>
+   <Rule TypeName="AssembliesShouldHaveValidStrongNames" Category="Microsoft.Design" CheckId="CA2210">
+    <Resolution Name="NoStrongName">Sign {0} with a strong name key.</Resolution>
    </Rule>
   </Rules>
  </FxCopReport>

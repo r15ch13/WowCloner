@@ -4,17 +4,21 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Linq;
 
-namespace Wowcloner
+namespace WowCloner
 {
     public partial class MainForm : Form
     {
         private List<string> log = new List<string>();
+        private int mouse_x = 0;
+        private int mouse_y = 0;
+        private bool move = false;
 
         public MainForm()
         {
@@ -25,29 +29,35 @@ namespace Wowcloner
 
             this.textBoxSource.Text = Properties.Settings.Default.wowsource;
 
-            this.loadWoWFolders();
+            this.LoadWowFolders();
             try
             {
-                this.labelTitle.Text = String.Format("World of Warcraft Cloner - {0}", FileVersionInfo.GetVersionInfo(Application.ExecutablePath).ProductVersion);
+                this.labelTitle.Text = String.Format(CultureInfo.CurrentCulture, "World of Warcraft Cloner - {0}", GetProductVersion);
             }
             catch (FileNotFoundException) { }
             catch (NullReferenceException) { }
-
-
-            //43;21;7
-            //26;16;7
-            //192;154;103
-            //255;174;0
         }
 
-        private void loadWoWFolders()
+        public static string GetProductVersion
+        {
+            get
+            {
+                var attribute = (AssemblyFileVersionAttribute)Assembly
+                .GetExecutingAssembly()
+                .GetCustomAttributes(typeof(AssemblyFileVersionAttribute), true)
+                .Single();
+                return attribute.Version;
+            }
+        }
+
+        private void LoadWowFolders()
         {
             this.listViewWowCopies.Items.Clear();
             try
             {
                 Wow wow = new Wow(Properties.Settings.Default.wowsource);
                 ReadOnlyCollection<string> folders = wow.Folders;
-                if (folders.Count == 0) writeLog(Wowcloner.Properties.Resources.No_WoW_Copies_found);
+                if (folders.Count == 0) this.WriteLog(WowCloner.Properties.Resources.No_WoW_Copies_found);
                 foreach (string folder in folders)
                 {
                     this.listViewWowCopies.Items.Add(folder);
@@ -57,10 +67,10 @@ namespace Wowcloner
             {
                 AggregateHandler(ex);
             }
-            this.enableButtons();
+            this.EnableButtons();
         }
 
-        private void disableButtons()
+        private void DisableButtons()
         {
             this.buttonCreate.Enabled = false;
             this.buttonUpdate.Enabled = false;
@@ -70,14 +80,15 @@ namespace Wowcloner
             this.textBoxName.Enabled = false;
             this.textBoxSource.Enabled = false;
 
-            this.buttonCreate.BackgroundImage = global::Wowcloner.Properties.Resources.button3_130x38;
-            this.buttonUpdate.BackgroundImage = global::Wowcloner.Properties.Resources.button3_130x38;
-            this.buttonUpdateAll.BackgroundImage = global::Wowcloner.Properties.Resources.button3_130x38;
-            this.buttonDelete.BackgroundImage = global::Wowcloner.Properties.Resources.button3_130x38;
-            this.buttonSearch.BackgroundImage = global::Wowcloner.Properties.Resources.button3_50x38;
+            this.buttonCreate.BackgroundImage = global::WowCloner.Properties.Resources.button3_130x38;
+            this.buttonUpdate.BackgroundImage = global::WowCloner.Properties.Resources.button3_130x38;
+            this.buttonUpdateAll.BackgroundImage = global::WowCloner.Properties.Resources.button3_130x38;
+            this.buttonDelete.BackgroundImage = global::WowCloner.Properties.Resources.button3_130x38;
+            this.buttonSearch.BackgroundImage = global::WowCloner.Properties.Resources.button3_50x38;
             Application.DoEvents();
         }
-        private void enableButtons()
+
+        private void EnableButtons()
         {
             this.buttonCreate.Enabled = true;
             this.buttonUpdate.Enabled = true;
@@ -87,56 +98,56 @@ namespace Wowcloner
             this.textBoxName.Enabled = true;
             this.textBoxSource.Enabled = true;
 
-            this.buttonCreate.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
-            this.buttonUpdate.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
-            this.buttonUpdateAll.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
-            this.buttonDelete.BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
-            this.buttonSearch.BackgroundImage = global::Wowcloner.Properties.Resources.button1_50x38;
+            this.buttonCreate.BackgroundImage = global::WowCloner.Properties.Resources.button1_130x38;
+            this.buttonUpdate.BackgroundImage = global::WowCloner.Properties.Resources.button1_130x38;
+            this.buttonUpdateAll.BackgroundImage = global::WowCloner.Properties.Resources.button1_130x38;
+            this.buttonDelete.BackgroundImage = global::WowCloner.Properties.Resources.button1_130x38;
+            this.buttonSearch.BackgroundImage = global::WowCloner.Properties.Resources.button1_50x38;
             Application.DoEvents();
         }
 
-        private void writeLog(string msg)
+        private void WriteLog(string msg)
         {
             this.logBindingSource.Add(msg);
             Application.DoEvents();
         }
 
-        private void buttonCreate_Click(object sender, EventArgs e)
+        private void ButtonCreateClick(object sender, EventArgs e)
         {
             this.logBindingSource.Clear();
-            this.disableButtons();
+            this.DisableButtons();
             try
             {
-                this.writeLog(Wowcloner.Properties.Resources.Please_wait);
+                this.WriteLog(WowCloner.Properties.Resources.Please_wait);
                 Wow wow = new Wow(Properties.Settings.Default.wowsource);
                 wow.Create(this.textBoxName.Text);
-                this.writeLog(String.Format(Wowcloner.Properties.Resources._0_created, this.textBoxName.Text));
+                this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources._0_created, this.textBoxName.Text));
             }
             catch (AggregateException ex)
             {
                 AggregateHandler(ex);
             }
 
-            this.loadWoWFolders();
+            this.LoadWowFolders();
             this.textBoxName.Text = "";
         }
 
-        private void buttonUpdate_Click(object sender, EventArgs e)
+        private void ButtonUpdateClick(object sender, EventArgs e)
         {
             this.logBindingSource.Clear();
-            this.disableButtons();
+            this.DisableButtons();
             if (this.listViewWowCopies.CheckedItems.Count > 0)
             {
                 try
                 {
-                    this.writeLog(Wowcloner.Properties.Resources.Please_wait);
+                    this.WriteLog(WowCloner.Properties.Resources.Please_wait);
                     Wow wow = new Wow(Properties.Settings.Default.wowsource);
                     foreach (ListViewItem item in this.listViewWowCopies.CheckedItems)
                     {
                         wow.Update(item.Text);
-                        this.writeLog(String.Format(Wowcloner.Properties.Resources._0_updated, item.Text));
+                        this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources._0_updated, item.Text));
                     }
-                    this.writeLog(Wowcloner.Properties.Resources.Done);
+                    this.WriteLog(WowCloner.Properties.Resources.Done);
                 }
                 catch (AggregateException ex)
                 {
@@ -145,59 +156,59 @@ namespace Wowcloner
             }
             else
             {
-                this.writeLog(Wowcloner.Properties.Resources.Nothing_selected);
+                this.WriteLog(WowCloner.Properties.Resources.Nothing_selected);
             }
-            this.loadWoWFolders();
+            this.LoadWowFolders();
         }
 
-        private void buttonUpdateAll_Click(object sender, EventArgs e)
+        private void ButtonUpdateAllClick(object sender, EventArgs e)
         {
             this.logBindingSource.Clear();
-            this.disableButtons();
+            this.DisableButtons();
             try
             {
                 if (this.listViewWowCopies.Items.Count > 0)
                 {
-                    this.writeLog(Wowcloner.Properties.Resources.Please_wait);
+                    this.WriteLog(WowCloner.Properties.Resources.Please_wait);
                     Wow wow = new Wow(Properties.Settings.Default.wowsource);
                     foreach (ListViewItem item in this.listViewWowCopies.Items)
                     {
                         wow.Update(item.Text);
-                        this.writeLog(String.Format(Wowcloner.Properties.Resources._0_updated, item.Text));
+                        this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources._0_updated, item.Text));
                     }
-                    this.writeLog(Wowcloner.Properties.Resources.Done);
+                    this.WriteLog(WowCloner.Properties.Resources.Done);
                 }
             }
             catch (AggregateException ex)
             {
                 AggregateHandler(ex);
             }
-            this.loadWoWFolders();
+            this.LoadWowFolders();
         }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+        private void ButtonDeleteClick(object sender, EventArgs e)
         {
             this.logBindingSource.Clear();
-            this.disableButtons();
+            this.DisableButtons();
             if (this.listViewWowCopies.CheckedItems.Count > 0)
             {
                 if (MessageBox.Show(null,
-                                    Wowcloner.Properties.Resources.Should_the_selected_WoW_Copies,
-                                    Wowcloner.Properties.Resources.Delete,
+                                    WowCloner.Properties.Resources.Should_the_selected_WoW_Copies,
+                                    WowCloner.Properties.Resources.Delete,
                                     MessageBoxButtons.YesNo,
                                     MessageBoxIcon.Warning,
                                     MessageBoxDefaultButton.Button2, (MessageBoxOptions)0) == System.Windows.Forms.DialogResult.Yes)
                 {
                     try
                     {
-                        this.writeLog(Wowcloner.Properties.Resources.Please_wait);
+                        this.WriteLog(WowCloner.Properties.Resources.Please_wait);
                         Wow wow = new Wow(Properties.Settings.Default.wowsource);
                         foreach (ListViewItem item in this.listViewWowCopies.CheckedItems)
                         {
                             wow.Delete(item.Text);
-                            this.writeLog(String.Format(Wowcloner.Properties.Resources._0_deleted, item.Text));
+                            this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources._0_deleted, item.Text));
                         }
-                        this.writeLog(Wowcloner.Properties.Resources.Done);
+                        this.WriteLog(WowCloner.Properties.Resources.Done);
                     }
                     catch (AggregateException ex)
                     {
@@ -207,19 +218,17 @@ namespace Wowcloner
             }
             else
             {
-                this.writeLog(Wowcloner.Properties.Resources.Nothing_selected);
+                this.WriteLog(WowCloner.Properties.Resources.Nothing_selected);
             }
-            this.loadWoWFolders();
+            this.LoadWowFolders();
         }
 
-
-
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        private void MainFormKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
                 case Keys.F5:
-                    this.loadWoWFolders();
+                    this.LoadWowFolders();
                     this.logBindingSource.Clear();
                     break;
                 case Keys.Escape:
@@ -227,7 +236,6 @@ namespace Wowcloner
                     break;
             }
         }
-
 
         private void AggregateHandler(AggregateException errors)
         {
@@ -237,40 +245,40 @@ namespace Wowcloner
                 switch (ex.GetType().Name)
                 {
                     case "Win32Exception":
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, Wowcloner.Properties.Resources.SymLink_Error_0_1, ((Win32Exception)ex).NativeErrorCode, ex.Message));
+                        this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources.SymLink_Error_0_1, ((Win32Exception)ex).NativeErrorCode, ex.Message));
                         break;
                     case "MyException":
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, "{0}", ex.Message));
+                        this.WriteLog(String.Format(CultureInfo.CurrentCulture, "{0}", ex.Message));
                         break;
                     case "Exception":
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, Wowcloner.Properties.Resources.Unknown_Error_0, ex.Message));
+                        this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources.Unknown_Error_0, ex.Message));
                         break;
                     default:
-                        this.writeLog(String.Format(CultureInfo.CurrentCulture, Wowcloner.Properties.Resources.Unknown_Error_0, ex.Message));
+                        this.WriteLog(String.Format(CultureInfo.CurrentCulture, WowCloner.Properties.Resources.Unknown_Error_0, ex.Message));
                         break;
                 }
 
             }
         }
 
-        private void textBoxSource_KeyDown(object sender, KeyEventArgs e)
+        private void TextBoxSourceKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
             {
                 try
                 {
-                    if (this.isWoWDir(this.textBoxSource.Text))
+                    if (IsWowDir(this.textBoxSource.Text))
                     {
                         Properties.Settings.Default.wowsource = Path.GetFullPath(this.textBoxSource.Text);
                         Properties.Settings.Default.Save();
-                        this.loadWoWFolders();
+                        this.LoadWowFolders();
                     }
                     else
                     {
                         Properties.Settings.Default.wowsource = "";
                         Properties.Settings.Default.Save();
                         this.textBoxSource.Text = "";
-                        this.writeLog(Wowcloner.Properties.Resources.Wow_exe_not_found_Please_selec);
+                        this.WriteLog(WowCloner.Properties.Resources.Wow_exe_not_found_Please_selec);
                     }
                 }
                 catch (Exception ex)
@@ -279,12 +287,13 @@ namespace Wowcloner
                     Properties.Settings.Default.Save();
                     this.textBoxSource.Text = "";
                     AggregateHandler(new AggregateException(ex));
+                    throw;
                 }
 
             }
         }
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void MainFormFormClosing(object sender, FormClosingEventArgs e)
         {
             this.logBindingSource.Clear();
 
@@ -294,29 +303,29 @@ namespace Wowcloner
             Properties.Settings.Default.Save();
         }
 
-        private void buttonSearch_Click(object sender, EventArgs e)
+        private void ButtonSearchClick(object sender, EventArgs e)
         {
             this.logBindingSource.Clear();
             if (folderBrowserDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                if (this.isWoWDir(folderBrowserDialog1.SelectedPath))
+                if (IsWowDir(folderBrowserDialog1.SelectedPath))
                 {
                     this.textBoxSource.Text = folderBrowserDialog1.SelectedPath;
                     Properties.Settings.Default.wowsource = folderBrowserDialog1.SelectedPath;
                     Properties.Settings.Default.Save();
-                    this.loadWoWFolders();
+                    this.LoadWowFolders();
                 }
                 else
                 {
                     Properties.Settings.Default.wowsource = "";
                     Properties.Settings.Default.Save();
                     this.textBoxSource.Text = "";
-                    this.writeLog(Wowcloner.Properties.Resources.Wow_exe_not_found_Please_selec);
+                    this.WriteLog(WowCloner.Properties.Resources.Wow_exe_not_found_Please_selec);
                 }
             }
         }
 
-        private bool isWoWDir(string path)
+        private static bool IsWowDir(string path)
         {
             try
             {
@@ -333,77 +342,70 @@ namespace Wowcloner
             return false;
         }
 
-
-
-        private void buttonGreat_MouseHover(object sender, EventArgs e)
+        private void ButtonGreatMouseHover(object sender, EventArgs e)
         {
-            ((Button)sender).BackgroundImage = global::Wowcloner.Properties.Resources.button2_130x38;
+            ((Button)sender).BackgroundImage = global::WowCloner.Properties.Resources.button2_130x38;
             this.ResumeLayout();
         }
 
-        private void buttonGreat_MouseLeave(object sender, EventArgs e)
+        private void ButtonGreatMouseLeave(object sender, EventArgs e)
         {
-            ((Button)sender).BackgroundImage = global::Wowcloner.Properties.Resources.button1_130x38;
+            ((Button)sender).BackgroundImage = global::WowCloner.Properties.Resources.button1_130x38;
             this.ResumeLayout();
         }
 
-        private void buttonSmall_MouseHover(object sender, EventArgs e)
+        private void ButtonSmallMouseHover(object sender, EventArgs e)
         {
-            ((Button)sender).BackgroundImage = global::Wowcloner.Properties.Resources.button2_50x38;
+            ((Button)sender).BackgroundImage = global::WowCloner.Properties.Resources.button2_50x38;
             this.ResumeLayout();
         }
 
-        private void buttonSmall_MouseLeave(object sender, EventArgs e)
+        private void ButtonSmallMouseLeave(object sender, EventArgs e)
         {
-            ((Button)sender).BackgroundImage = global::Wowcloner.Properties.Resources.button1_50x38;
+            ((Button)sender).BackgroundImage = global::WowCloner.Properties.Resources.button1_50x38;
             this.ResumeLayout();
         }
 
-        private void buttonMinimize_MouseHover(object sender, EventArgs e)
+        private void ButtonMinimizeMouseHover(object sender, EventArgs e)
         {
-            this.buttonMinimize.BackgroundImage = global::Wowcloner.Properties.Resources.mini2;
+            this.buttonMinimize.BackgroundImage = global::WowCloner.Properties.Resources.mini2;
             this.ResumeLayout();
         }
 
-        private void buttonMinimize_MouseLeave(object sender, EventArgs e)
+        private void ButtonMinimizeMouseLeave(object sender, EventArgs e)
         {
-            this.buttonMinimize.BackgroundImage = global::Wowcloner.Properties.Resources.mini1;
+            this.buttonMinimize.BackgroundImage = global::WowCloner.Properties.Resources.mini1;
             this.ResumeLayout();
         }
 
-        private void buttonMinimize_Click(object sender, EventArgs e)
+        private void ButtonMinimizeClick(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
         }
 
-        private void buttonClose_MouseHover(object sender, EventArgs e)
+        private void ButtonCloseMouseHover(object sender, EventArgs e)
         {
-            this.buttonClose.BackgroundImage = global::Wowcloner.Properties.Resources.close2;
+            this.buttonClose.BackgroundImage = global::WowCloner.Properties.Resources.close2;
             this.ResumeLayout();
         }
 
-        private void buttonClose_MouseLeave(object sender, EventArgs e)
+        private void ButtonCloseMouseLeave(object sender, EventArgs e)
         {
-            this.buttonClose.BackgroundImage = global::Wowcloner.Properties.Resources.close1;
+            this.buttonClose.BackgroundImage = global::WowCloner.Properties.Resources.close1;
             this.ResumeLayout();
         }
 
-        private void buttonClose_Click(object sender, EventArgs e)
+        private void ButtonCloseClick(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabelByClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://r15ch13.de");
         }
 
-
-        private int mouse_x = 0;
-        private int mouse_y = 0;
-        private bool move = false;
-
-        private void labelTitle_MouseMove(object sender, MouseEventArgs e)
+        private void LabelTitleMouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left && sender.GetType() == typeof(Label) && move == true)
             {
@@ -416,7 +418,7 @@ namespace Wowcloner
             }
         }
 
-        private void labelTitle_MouseDown(object sender, MouseEventArgs e)
+        private void LabelTitleMouseDown(object sender, MouseEventArgs e)
         {
             if (sender.GetType() == typeof(Label))
             {
@@ -430,7 +432,7 @@ namespace Wowcloner
             }
         }
 
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        private void MainPictureBoxMouseDown(object sender, MouseEventArgs e)
         {
             if (sender.GetType() == typeof(PictureBox))
             {
@@ -444,7 +446,7 @@ namespace Wowcloner
             }
         }
 
-        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        private void MainPictureBoxMouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left && sender.GetType() == typeof(PictureBox) && move == true)
             {
